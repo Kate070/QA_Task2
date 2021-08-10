@@ -1,0 +1,86 @@
+#1 ( 10.08.2021 )
+Issue Type: Defect
+Priority: Medium
+Component: ElevatorFloors class
+Priority: Medium
+Steps to reproduce:
+1.  Create new object of ElevatorFloors class with default constructor
+2.  According to provided documentation check that Class variables minFloor and maxFloor NOT equal 0.
+Expected :
+    minFloor != 0 && maxFloor != 0
+Actual :
+    minFloor = 0 && maxFloor = 0
+
+Workaround:
+    Default constructor in ElevatorFloors class should be either with modifier "private" or deleted.
+
+#2 ( 10.08.2021)
+Issue Type: Bug
+Priority : High
+Component: Elevator class
+Steps to reproduce:
+    1.  Create new object of Elevator class with the following arguments in constructor: ( 1, new ElevatorFloors(-2,10) , false)
+    2.  Call the getAvailableFloors method on newly created object.
+    3.  Check quantity of available floors
+Expected :
+    12 - ( 2 + 10 ) zero floor excluded
+Actual :
+    11 - last max floor is excluded with zero
+Workaround:
+    Check condition in first (and the only) "for" iterator it should check i <= elevatorFloors.getMaxFloor().
+
+#3 (10.08.2021)
+Issue Type: Bug
+Priority: Critical ( BLOCKER )
+Component: Elevator class
+Steps to reproduce:
+    1.  Create new object of Elevator class with the following arguments in constructor : ( 1, new ElevatorFloors(-2,10) , false)
+    2.  Call the moveElevatorToTheFloor method with argument (destinationFloor)  5,
+    3.  Check current floor (variable -> currentFloor)
+Expected:
+    current floor is 5
+Actual:
+    DoorsAreOpenException is thrown.
+
+Workaround:
+    Check condition in moveElevatorToTheFloor that validates doors are not open.
+    Replace !areDoorOpen() with areDoorsOpen() (don't reverse returning boolean value from method)
+
+--------------------------------------------------   AFTER #3 BUG IS FIXED ---------------------------------------------------------------------
+
+#4 (10.08.2021)
+Issue Type: Bug
+Priority : High
+Component: Elevator class
+Steps to reproduce:
+    1. Create new object of Elevator class with the following arguments in constructor : ( 1, new ElevatorFloors(-2,10) , false)
+    2. Call the moveElevatorToTheFloor method with argument (variable -> destinationFloor)  0,
+    3. Check that elevator did not move to 0 floor (variable -> currentFloor = 0 )
+Expected:
+    current floor is 1
+Actual:
+    current floor is 0
+
+Workaround :
+    When user calls moveElevatorToTheFloor with 0 argument method should be interrupted with throwing an IncorrectFloorException class
+
+#5 (10.08.2021)
+Issue Type: Bug
+Priority : High
+Component: Elevator class
+Steps to reproduce:
+    1.  Create new object of Elevator class with the following arguments in constructor : (-5, new ElevatorFloors(-1,10), false)
+    2.  Check result
+Expected:
+    Object is not created. Exception thrown currentFloor is out of bound ElevatorFloors.class max and min floor
+Actual:
+    Object is created. No exception thrown.
+
+Workaround:
+    Add new condition in constructor with parameters that checks current floor is in bounds defined by elevatorFloors variable
+    if( currentFloor < elevatorFloors.getMinFloor() ||   currentFloor > elevatorFloors.getMaxFloor() ) throw Exception.
+
+
+
+
+
